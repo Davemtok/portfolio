@@ -212,7 +212,7 @@ function Hero() {
             <Button asChild>
               <a href="#projects">View Projects</a>
             </Button>
-            <Button asChild variant="secondary">
+            <Button asChild>
               <a href="#skills">Skills</a>
             </Button>
           </div>
