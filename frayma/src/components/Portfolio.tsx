@@ -11,7 +11,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 // CONFIG — COMPLETED WITH YOUR DETAILS
 // =========================
 const PROFILE = {
-  name: "David Mawuko Torkornoo",
+  name: "David M. Torkornoo",
   title: "Software Engineer • AI • Cybersecurity • Full-Stack",
   tagline:
     "First-Class Honours Computer Science graduate passionate about building reliable, secure, and data-driven applications.",
