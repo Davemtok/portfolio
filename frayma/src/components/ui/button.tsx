@@ -21,8 +21,8 @@ export function Button({
 }: ButtonProps) {
   const base = "inline-flex items-center justify-center rounded-2xl border transition";
   const variants: Record<Variant, string> = {
-    default: "bg-foreground text-background hover:bg-white hover:text-black",
-    secondary: "bg-transparent text-foreground hover:bg-white hover:text-black",
+    default: "bg-neutral-900 text-white border-neutral-900 hover:bg-white hover:text-neutral-900",
+    secondary: "bg-transparent text-neutral-900 border-neutral-900 hover:bg-white hover:text-neutral-900",
   };
 
   const sizes: Record<Size, string> = {
