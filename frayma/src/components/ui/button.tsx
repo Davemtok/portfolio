@@ -1,9 +1,10 @@
 import * as React from "react";
+import type { ComponentProps, ReactElement, HTMLAttributes } from "react";
 
 type Variant = "default" | "secondary";
 type Size = "sm" | "md";
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+type ButtonProps = ComponentProps<"button"> & {
   asChild?: boolean;
   variant?: Variant;
   size?: Size;
@@ -31,11 +32,12 @@ export function Button({
   const computed = `${base} ${variants[variant]} ${sizes[size]} ${className}`.trim();
 
   if (asChild && React.isValidElement(children)) {
-    // Cast so TS knows className is acceptable on the child element
-    const child = children as React.ReactElement<any>;
+    // child can be <a> or any element that accepts className
+    const child = children as ReactElement<{ className?: string } & HTMLAttributes<HTMLElement>>;
+    const merged = [child.props.className, computed].filter(Boolean).join(" ");
     return React.cloneElement(child, {
       ...props,
-      className: [child.props?.className, computed].filter(Boolean).join(" "),
+      className: merged,
     });
   }
 
