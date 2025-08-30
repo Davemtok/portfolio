@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Github, Linkedin, Mail, ExternalLink, Download, Globe } from "lucide-react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import ThemeToggle from "@/components/ThemeToggle";
 
 
 // =========================
@@ -20,7 +21,7 @@ const PROFILE = {
   github: "https://github.com/Davemtok?tab=repositories",
   linkedin: "https://www.linkedin.com/in/david-torkornoo-865411195/", // update if different
   website: "", // optional
-  cvUrl: "#", // Add a hosted link to your CV if available
+  cvUrl: "/cv/David_Torkornoo_CV.pdf",
 };
 
 // =========================
@@ -172,6 +173,7 @@ function Nav() {
               </a>
             </Button>
           )}
+          <ThemeToggle /> {/* 🌙/☀️ button */}
         </nav>
       </div>
     </header>
@@ -198,9 +200,6 @@ function IconLink({ href, icon, label }: { href: string; icon: React.ReactNode; 
 function Hero() {
   return (
     <section id="home" className="relative">
-      {/* Background techy gradient */}
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(40%_60%_at_20%_10%,rgba(56,189,248,.15),transparent),radial-gradient(40%_60%_at_80%_20%,rgba(168,85,247,.12),transparent),radial-gradient(60%_60%_at_50%_80%,rgba(16,185,129,.10),transparent)]" />
-
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 pb-16 pt-12 md:grid-cols-2 md:items-center">
         <div className="space-y-5">
           <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs">
@@ -208,19 +207,42 @@ function Hero() {
           </div>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{PROFILE.title}</h1>
           <p className="max-w-prose text-muted-foreground">{PROFILE.tagline}</p>
-          <div className="flex gap-3">
-            <Button asChild>
+
+          {/* New short bio */}
+          <p className="max-w-prose text-sm text-foreground">
+            First-Class Honours Computer Science graduate passionate about software quality and automation. Solid foundation in system software, embedded development, and test-driven development.
+            Experienced in Python, Bash, and Linux environments, with strong analytical and problem-solving skills.
+            Proven track record in building secure, data-driven applications and conducting security data analytics.
+            Eager to start a career in any Technology field and grow through continuous learning and industry certifications.
+          </p>
+
+          {/* Buttons */}
+          <div className="flex flex-wrap gap-3">
+            <Button asChild className="btn-theme">
               <a href="#projects">View Projects</a>
             </Button>
-            <Button asChild>
+            <Button asChild className="btn-theme">
               <a href="#skills">Skills</a>
             </Button>
+            {PROFILE.cvUrl !== "#" && (
+              <Button asChild className="btn-theme">
+                <a href={PROFILE.cvUrl} download target="_blank" rel="noreferrer">
+                  <Download className="mr-2 h-4 w-4" /> Download CV
+                </a>
+              </Button>
+              // Always show the button (even if link missing)
+              // <Button asChild disabled={PROFILE.cvUrl === "#"}>
+              //   <a href={PROFILE.cvUrl !== "#" ? PROFILE.cvUrl : "#"} target="_blank" rel="noreferrer">
+              //     <Download className="mr-2 h-4 w-4" /> Download CV
+              //   </a>
+              // </Button>
+            )}
           </div>
         </div>
 
+        {/* Existing right-side content (photo/canvas) */}
         <div className="relative">
           <div className="mx-auto aspect-square max-w-sm overflow-hidden rounded-3xl border">
-            {/* Replace this with your photo or a canvas animation */}
             <TechCanvas />
           </div>
         </div>
@@ -448,7 +470,7 @@ function Footer() {
 // =========================
 export default function Portfolio() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+      <div className="min-h-screen bg-white text-black dark:bg-background dark:text-foreground transition-colors duration-300">
       <CursorFollower />
       <Nav />
       <Hero />

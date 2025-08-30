@@ -1,26 +1,80 @@
 @import "tailwindcss";
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* === Light mode (default) === */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --muted: #f4f4f5;
+
+  /* ✅ Light button */
+  --btn-bg: #ffffff;        /* black */
+  --btn-text: #000000;      /* white text */
+  --btn-hover: #D3D3D3;     /* true black hover */
 }
 
+/* === Dark mode (when <html> has class="dark") === */
+.dark {
+  --background: #0a0a0a;   /* deep dark background */
+  --foreground: #ededed;   /* near-white text */
+
+  --card: #1e293b;
+  --border: #334155;
+  --muted: #262626;
+
+  /* ✅ Dark button */
+  --btn-bg: #0a0a0a;        /* white */
+  --btn-text: #ffffff;      /* black text */
+  --btn-hover: #444444;     /* light gray hover */
+}
+
+/* Map CSS variables to Tailwind theme tokens */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Apply variables to body */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background 0.3s ease, color 0.3s ease; /* smooth theme switch */
+}
+
+/* Reusable themed button utility (works in light & dark via CSS vars) */
+.btn-theme {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: 1px solid var(--border);
+  border-radius: 9999px; /* fully rounded */
+  padding: 0.5rem 1rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-theme:hover {
+  background: var(--btn-hover);
+  opacity: 0.95;
+}
+
+.btn-theme:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--btn-bg);
 }
