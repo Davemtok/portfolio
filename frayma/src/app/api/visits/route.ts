@@ -1,14 +1,15 @@
+// src/app/api/visits/route.ts
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic"; // run on every request
-export const revalidate = 0;            // don't cache
+export const runtime = "nodejs";        // 👈 ensure Node runtime (not Edge)
+export const dynamic = "force-dynamic"; // 👈 no static optimization
+export const revalidate = 0;            // 👈 no caching
 
-const NAMESPACE = "davemtok-portfolio"; // change if you like
+const NAMESPACE = "davemtok-portfolio"; // change if you want
 const KEY = "total";
 
 export async function GET() {
   try {
-    // prefer explicit +1; fallback to hit if update fails
     const urls = [
       `https://api.countapi.xyz/update/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}?amount=1`,
       `https://api.countapi.xyz/hit/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}`
@@ -17,15 +18,20 @@ export async function GET() {
     for (const url of urls) {
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) continue;
+
       const data = await res.json();
       if (typeof data?.value === "number") {
         return NextResponse.json({ value: data.value });
       }
     }
 
-    // If CountAPI is down, at least return a stable structure
-    return NextResponse.json({ value: 1 }, { status: 200 });
-  } catch {
-    return NextResponse.json({ value: 1 }, { status: 200 });
+    // If both endpoints fail or return unexpected shape:
+    return NextResponse.json({ value: 1, error: "COUNTAPI_BAD_RESPONSE" }, { status: 200 });
+  } catch (err: any) {
+    // surface error text to help debug if needed
+    return NextResponse.json(
+      { value: 1, error: "COUNTAPI_FETCH_FAILED", message: String(err?.message || err) },
+      { status: 200 }
+    );
   }
 }

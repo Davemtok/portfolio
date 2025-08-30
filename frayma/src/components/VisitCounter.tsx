@@ -32,7 +32,7 @@ export default function VisitCounter() {
   React.useEffect(() => {
     if (ranOnce.current) return; // avoid double-run in Strict Mode
     ranOnce.current = true;
-
+    
     const animateTo = (next: number) => {
       setCount(next);
       mv.set(Math.max(0, next - 7));
@@ -43,7 +43,7 @@ export default function VisitCounter() {
 
     (async () => {
       try {
-        const res = await fetch("/api/visits", { cache: "no-store" });
+        const res = await fetch(`/api/visits?_=${Date.now()}`, { cache: "no-store" });
         const data = await res.json();
         if (typeof data?.value === "number") {
           animateTo(data.value);
