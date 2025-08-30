@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Github, Linkedin, Mail, ExternalLink, Download, Globe } from "lucide-react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
-import VisitCounter from "@/components/VisitCounter";
 
 
 // Drop-in variants (put near the top of your file)
