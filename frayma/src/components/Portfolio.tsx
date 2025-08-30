@@ -15,7 +15,7 @@ const PROFILE = {
   name: "David M. Torkornoo",
   title: "Software Engineer • AI • Cybersecurity • Full-Stack",
   tagline:
-    "First-Class Honours Computer Science graduate passionate about building reliable, secure, and data-driven applications.",
+    "First-Class Honours Computer Science graduate passionate about software quality and automation. Solid foundation in system software, embedded development, and test-driven development. Experienced in Python, Bash, and Linux environments, with strong analytical and problem-solving skills. Proven track record in building secure, data-driven applications and conducting security data analytics. Eager to start a career in any Technology field and grow through continuous learning and industry certifications. ",
   location: "Bristol, UK",
   email: "Davemtork@gmail.com",
   github: "https://github.com/Davemtok?tab=repositories",
@@ -166,13 +166,6 @@ function Nav() {
           <IconLink href={PROFILE.github} icon={<Github className="h-5 w-5" />} label="GitHub" />
           <IconLink href={PROFILE.linkedin} icon={<Linkedin className="h-5 w-5" />} label="LinkedIn" />
           <IconLink href={`mailto:${PROFILE.email}`} icon={<Mail className="h-5 w-5" />} label="Email" />
-          {PROFILE.cvUrl !== "#" && (
-            <Button asChild size="sm" className="ml-2">
-              <a href={PROFILE.cvUrl} target="_blank" rel="noreferrer">
-                <Download className="mr-2 h-4 w-4" /> CV
-              </a>
-            </Button>
-          )}
           <ThemeToggle /> {/* 🌙/☀️ button */}
         </nav>
       </div>
@@ -207,14 +200,6 @@ function Hero() {
           </div>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{PROFILE.title}</h1>
           <p className="max-w-prose text-muted-foreground">{PROFILE.tagline}</p>
-
-          {/* New short bio */}
-          <p className="max-w-prose text-sm text-foreground">
-            First-Class Honours Computer Science graduate passionate about software quality and automation. Solid foundation in system software, embedded development, and test-driven development.
-            Experienced in Python, Bash, and Linux environments, with strong analytical and problem-solving skills.
-            Proven track record in building secure, data-driven applications and conducting security data analytics.
-            Eager to start a career in any Technology field and grow through continuous learning and industry certifications.
-          </p>
 
           {/* Buttons */}
           <div className="flex flex-wrap gap-3">
