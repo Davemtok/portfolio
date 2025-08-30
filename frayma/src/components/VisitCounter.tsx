@@ -3,7 +3,7 @@ import * as React from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 
 function Confetti() {
-  const emojis = ["🎉","✨","🚀","🎈","💫","🪩"];
+  const emojis = ["🎉", "✨", "🚀", "🎈", "💫", "🪩"];
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {Array.from({ length: 10 }).map((_, i) => (
@@ -12,7 +12,7 @@ function Confetti() {
           className="absolute text-lg"
           style={{ left: `${Math.random() * 100}%`, top: -10 }}
           initial={{ y: -20, opacity: 0, rotate: 0, scale: 0.8 }}
-          animate={{ y: 160, opacity: [0,1,1,0], rotate: Math.random() * 360, scale: 1 }}
+          animate={{ y: 160, opacity: [0, 1, 1, 0], rotate: Math.random() * 360, scale: 1 }}
           transition={{ duration: 1.6 + Math.random() * 0.8, ease: "easeOut", delay: Math.random() * 0.2 }}
         >
           {emojis[i % emojis.length]}
@@ -25,12 +25,12 @@ function Confetti() {
 export default function VisitCounter() {
   const [count, setCount] = React.useState<number | null>(null);
   const [confetti, setConfetti] = React.useState(false);
-  const mv = useMotionValue(0);
-  const display = useTransform(mv, (v) => Math.floor(Math.max(0, v)).toLocaleString());
   const ranOnce = React.useRef(false);
+  const mv = useMotionValue(0);
+  const display = useTransform(mv, v => Math.floor(Math.max(0, v)).toLocaleString());
 
   React.useEffect(() => {
-    if (ranOnce.current) return;
+    if (ranOnce.current) return; // avoid double-run in Strict Mode
     ranOnce.current = true;
 
     const animateTo = (next: number) => {
@@ -51,7 +51,7 @@ export default function VisitCounter() {
         }
         throw new Error("Bad response");
       } catch {
-        // final fallback: local only so UI still looks alive in dev/offline
+        // last-resort local fallback (dev/offline)
         try {
           const k = "visits-local";
           const prev = parseInt(localStorage.getItem(k) || "0", 10) || 0;
