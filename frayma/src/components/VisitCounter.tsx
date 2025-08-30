@@ -2,7 +2,6 @@
 import * as React from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 
-// Simple fun emoji confetti
 function Confetti() {
   const emojis = ["🎉", "✨", "🚀", "🎈", "💫", "🪩"];
   return (
@@ -24,58 +23,87 @@ function Confetti() {
 }
 
 type Props = {
-  namespace?: string; // any unique string for your site
-  keyName?: string;   // bucket key
+  namespace?: string; // keep unique to your site
+  keyName?: string;   // key within that namespace
 };
 
-export default function VisitCounter({ namespace = "davemtok-portfolio", keyName = "root" }: Props) {
+export default function VisitCounter({
+  namespace = "davemtok-portfolio",
+  keyName = "root",
+}: Props) {
   const [count, setCount] = React.useState<number | null>(null);
   const [confetti, setConfetti] = React.useState(false);
-
   const mv = useMotionValue(0);
-  const display = useTransform(mv, (v) => Math.floor(v).toLocaleString());
+  const display = useTransform(mv, (v) => Math.max(0, Math.floor(v)).toLocaleString());
+  const ranOnce = React.useRef(false); // prevent double-run in React StrictMode dev
 
   React.useEffect(() => {
-    let cancelled = false;
+    if (ranOnce.current) return;
+    ranOnce.current = true;
 
-    async function hitCounter() {
-      try {
-        // CountAPI: increments and returns total
-        const res = await fetch(`https://api.countapi.xyz/hit/${encodeURIComponent(namespace)}/${encodeURIComponent(keyName)}`);
-        const data = await res.json();
-        if (cancelled) return;
+    const NS = encodeURIComponent(namespace);
+    const KEY = encodeURIComponent(keyName);
 
-        const next = typeof data?.value === "number" ? data.value : 1;
-        setCount(next);
+    const endpoints = [
+      // prefer update (explicit +1), then hit (auto-create)
+      `https://api.countapi.xyz/update/${NS}/${KEY}?amount=1`,
+      `https://api.countapi.xyz/hit/${NS}/${KEY}`,
+    ];
 
-        // animate from (next - 7) up to next for a nice tick
-        animate(mv, next, { duration: 0.8, ease: "easeOut" });
-        setConfetti(true);
-        setTimeout(() => setConfetti(false), 1200);
-      } catch {
-        // fallback: just show 1
-        const next = 1;
-        setCount(next);
-        animate(mv, next, { duration: 0.6, ease: "easeOut" });
-      }
-    }
-
-    hitCounter();
-    return () => {
-      cancelled = true;
+    const animateTo = (next: number) => {
+      setCount(next);
+      // start slightly below and tick up; clamp to >= 0
+      const start = Math.max(0, next - 7);
+      mv.set(start);
+      animate(mv, next, { duration: 0.8, ease: "easeOut" });
+      setConfetti(true);
+      setTimeout(() => setConfetti(false), 1200);
     };
+
+    const useLocalFallback = () => {
+      try {
+        const k = `visits-local-${namespace}-${keyName}`;
+        const prev = parseInt(localStorage.getItem(k) || "0", 10) || 0;
+        const next = prev + 1;
+        localStorage.setItem(k, String(next));
+        animateTo(next);
+      } catch {
+        animateTo(1);
+      }
+    };
+
+    (async () => {
+      for (const url of endpoints) {
+        try {
+          const res = await fetch(url, {
+            method: "GET",
+            mode: "cors",
+            cache: "no-store",
+            headers: { "Cache-Control": "no-cache" },
+          });
+          if (!res.ok) continue;
+          const data = await res.json();
+          const val = typeof data?.value === "number" ? data.value : undefined;
+          if (typeof val === "number") {
+            animateTo(val);
+            return;
+          }
+        } catch {
+          // try next endpoint
+        }
+      }
+      // All attempts failed (likely blocked) -> local fallback
+      useLocalFallback();
+    })();
   }, [keyName, mv, namespace]);
 
   return (
     <div className="relative inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs">
       <span className="opacity-80">Total visits</span>
-      <motion.span
-        className="font-semibold tabular-nums"
-        aria-live="polite"
-      >
+      <motion.span className="font-semibold tabular-nums" aria-live="polite">
         {count === null ? "…" : display}
       </motion.span>
-      <span>👀</span>
+      <span role="img" aria-label="eyes">👀</span>
       {confetti && <Confetti />}
     </div>
   );
