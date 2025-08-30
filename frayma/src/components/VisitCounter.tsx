@@ -42,26 +42,33 @@ export default function VisitCounter() {
     };
 
     (async () => {
-      try {
-        const res = await fetch(`/api/visits?_=${Date.now()}`, { cache: "no-store" });
-        const data = await res.json();
-        if (typeof data?.value === "number") {
-          animateTo(data.value);
-          return;
+      try
+      {
+            // Cache-busted request to avoid any CDN caching along the way
+            const res = await fetch(`/api/visits?_=${Date.now()}`, { cache: "no-store" });
+            const data = await res.json();
+
+            // Helpful console log while we debug
+            // (You can remove this once it's working)
+            console.log("visit counter /api/visits response:", data);
+
+            if (typeof data?.value === "number") {
+                animateTo(data.value);
+            } else {
+                throw new Error("Bad response shape from /api/visits");
+            }
+            } catch {
+            // final local fallback so UI still animates
+            try {
+                const k = "visits-local";
+                const prev = parseInt(localStorage.getItem(k) || "0", 10) || 0;
+                const next = prev + 1;
+                localStorage.setItem(k, String(next));
+                animateTo(next);
+            } catch {
+                animateTo(1);
+            }
         }
-        throw new Error("Bad response");
-      } catch {
-        // last-resort local fallback (dev/offline)
-        try {
-          const k = "visits-local";
-          const prev = parseInt(localStorage.getItem(k) || "0", 10) || 0;
-          const next = prev + 1;
-          localStorage.setItem(k, String(next));
-          animateTo(next);
-        } catch {
-          animateTo(1);
-        }
-      }
     })();
   }, [mv]);
 

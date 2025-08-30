@@ -27,7 +27,7 @@ const containerStagger = {
 // CONFIG — COMPLETED WITH YOUR DETAILS
 // =========================
 const PROFILE = {
-  name: "David M. Torkornoo",
+  name: "David MM. Torkornoo",
   title: "Software Engineer • AI • Cybersecurity • Full-Stack",
   tagline:
     "First-Class Honours Computer Science graduate passionate about software quality and automation. Solid foundation in system software, embedded development, and test-driven development. Experienced in Python, Bash, and Linux environments, with strong analytical and problem-solving skills. Proven track record in building secure, data-driven applications and conducting security data analytics. Eager to start a career in any Technology field and grow through continuous learning and industry certifications. ",
@@ -36,7 +36,7 @@ const PROFILE = {
   github: "https://github.com/Davemtok?tab=repositories",
   linkedin: "https://www.linkedin.com/in/david-torkornoo-865411195/", // update if different
   website: "", // optional
-  cvUrl: "/cv/David_Torkornoo_CV.pdf",
+  // cvUrl: "/cv/David_Torkornoo_CV.pdf",
 };
 
 // =========================
@@ -224,7 +224,7 @@ function Hero() {
             <Button asChild className="btn-theme">
               <a href="#skills">Skills</a>
             </Button>
-            {PROFILE.cvUrl !== "#" && (
+            {/* {PROFILE.cvUrl !== "#" && (
               <Button asChild className="btn-theme">
                 <a href={PROFILE.cvUrl} download target="_blank" rel="noreferrer">
                   <Download className="mr-2 h-4 w-4" /> Download CV
@@ -236,7 +236,7 @@ function Hero() {
               //     <Download className="mr-2 h-4 w-4" /> Download CV
               //   </a>
               // </Button>
-            )}
+            )} */}
             
           </div>
         </div>
