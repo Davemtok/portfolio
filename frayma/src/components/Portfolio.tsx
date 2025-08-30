@@ -245,10 +245,10 @@ function Hero() {
           <div className="mx-auto aspect-square max-w-sm overflow-hidden rounded-3xl border">
             <TechCanvas />
           </div>
-            {/* 👇 counter here */}
+            {/* 👇 counter here
             <div className="pt-2">
               <VisitCounter namespace="davemtok-portfolio" keyName="root" />
-            </div>
+            </div> */}
         </div>
       </div>
     </motion.section>
