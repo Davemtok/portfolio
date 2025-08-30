@@ -7,6 +7,19 @@ import { Github, Linkedin, Mail, ExternalLink, Download, Globe } from "lucide-re
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
 
+// Drop-in variants (put near the top of your file)
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+};
+
+const containerStagger = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.06, delayChildren: 0.06 }
+  }
+};
+
 
 // =========================
 // CONFIG — COMPLETED WITH YOUR DETAILS
@@ -192,7 +205,7 @@ function IconLink({ href, icon, label }: { href: string; icon: React.ReactNode; 
 // =========================
 function Hero() {
   return (
-    <section id="home" className="relative">
+    <motion.section id="home" className="relative scroll-mt-24">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 pb-16 pt-12 md:grid-cols-2 md:items-center">
         <div className="space-y-5">
           <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs">
@@ -232,7 +245,7 @@ function Hero() {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
 
@@ -292,7 +305,7 @@ function TechCanvas() {
 // =========================
 function Projects() {
   return (
-    <section id="projects" className="mx-auto max-w-6xl px-4 py-12">
+    <motion.section id="projects" className="mx-auto max-w-6xl px-4 py-12 scroll-mt-24">
       <div className="mb-6 flex items-end justify-between">
         <h2 className="text-2xl font-semibold tracking-tight">Projects</h2>
         <p className="text-sm text-muted-foreground">Click a card to open the GitHub repo</p>
@@ -321,7 +334,7 @@ function Projects() {
           </a>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }
 
@@ -330,7 +343,7 @@ function Projects() {
 // =========================
 function Skills() {
   return (
-    <section id="skills" className="mx-auto max-w-6xl px-4 py-12">
+    <motion.section id="skills" className="mx-auto max-w-6xl px-4 py-12 scroll-mt-24">
       <h2 className="mb-6 text-2xl font-semibold tracking-tight">Skills</h2>
       <div className="grid gap-6 md:grid-cols-2">
         {Object.entries(SKILLS).map(([category, items]) => (
@@ -351,7 +364,7 @@ function Skills() {
           </Card>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }
 
