@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Github, Linkedin, Mail, ExternalLink, Download, Globe } from "lucide-react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
+import VisitCounter from "@/components/VisitCounter";
+
 
 // Drop-in variants (put near the top of your file)
 const fadeUp = {
@@ -235,6 +237,7 @@ function Hero() {
               //   </a>
               // </Button>
             )}
+            
           </div>
         </div>
 
@@ -243,6 +246,10 @@ function Hero() {
           <div className="mx-auto aspect-square max-w-sm overflow-hidden rounded-3xl border">
             <TechCanvas />
           </div>
+            {/* 👇 counter here */}
+            <div className="pt-2 text-center">
+              <VisitCounter namespace="davemtok-portfolio" keyName="root" />
+            </div>
         </div>
       </div>
     </motion.section>
