@@ -248,7 +248,7 @@ function Hero() {
           </div>
             {/* 👇 counter here */}
             <div className="pt-2 text-center">
-              <VisitCounter namespace="davemtok-portfolio" keyName="root" />
+              <VisitCounter/>
             </div>
         </div>
       </div>
