@@ -35,7 +35,7 @@ const PROFILE = {
   github: "https://github.com/Davemtok?tab=repositories",
   linkedin: "https://www.linkedin.com/in/david-torkornoo-865411195/", // update if different
   website: "", // optional
-  cvUrl: "/cv/David_Torkornoo_CV.pdf",
+  cvUrl: "/cv/David M.Torkornoo CV .pdf",
 };
 
 // =========================
